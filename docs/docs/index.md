@@ -1,4 +1,4 @@
-# project_name documentation!
+# E2E-ML-TEMPLATE documentation!
 
 ## Description
 
