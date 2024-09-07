@@ -4,7 +4,7 @@
 
 PROJECT_NAME = E2E-ML-TEMPLATE
 PYTHON_VERSION = 3.11
-PYTHON_INTERPRETER = python
+PYTHON_INTERPRETER = python3
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -38,7 +38,18 @@ lint:
 format:
 	black --config pyproject.toml project_name
 
+## Download Data from storage system
+.PHONY: sync_data_down
+sync_data_down:
+	az storage blob download-batch -s UFUF/data/ \
+		-d data/
+	
 
+## Upload Data to storage system
+.PHONY: sync_data_up
+sync_data_up:
+	az storage blob upload-batch -d UFUF/data/ \
+		-s data/
 
 
 ## Set up python interpreter environment
@@ -46,7 +57,17 @@ format:
 create_environment:
 	@bash -c "if [ ! -z `which virtualenvwrapper.sh` ]; then source `which virtualenvwrapper.sh`; mkvirtualenv $(PROJECT_NAME) --python=$(PYTHON_INTERPRETER); else mkvirtualenv.bat $(PROJECT_NAME) --python=$(PYTHON_INTERPRETER); fi"
 	@echo ">>> New virtualenv created. Activate with:\nworkon $(PROJECT_NAME)"
-	
+
+
+## set up jupyter for code review
+.PHONY: setup_jupyter
+setup_jupyter:
+	@echo "Installing nbautoexport..."
+	nbautoexport install
+	@echo "Configuring nbautoexport for the 'notebooks' directory..."
+	nbautoexport configure notebooks
+	@echo "Starting Jupyter Notebook..."
+	jupyter notebook notebooks
 
 
 
@@ -60,6 +81,15 @@ create_environment:
 data: requirements
 	$(PYTHON_INTERPRETER) project_name/dataset.py
 
+## Make Features
+.PHONY: features
+features: requirements
+	$(PYTHON_INTERPRETER) project_name/features.py
+
+## Make Plots
+.PHONY: plots
+plots: requirements
+	$(PYTHON_INTERPRETER) project_name/plots.py
 
 #################################################################################
 # Self Documenting Commands                                                     #
