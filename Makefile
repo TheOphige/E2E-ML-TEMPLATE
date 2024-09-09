@@ -29,14 +29,14 @@ clean:
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
 lint:
-	flake8 project_name
-	isort --check --diff --profile black project_name
-	black --check --config pyproject.toml project_name
+	flake8 E2E-ML-TEMPLATE
+	isort --check --diff --profile black E2E-ML-TEMPLATE
+	black --check --config pyproject.toml E2E-ML-TEMPLATE
 
 ## Format source code with black
 .PHONY: format
 format:
-	black --config pyproject.toml project_name
+	black --config pyproject.toml E2E-ML-TEMPLATE
 
 ## Download Data from storage system
 .PHONY: sync_data_down
@@ -82,17 +82,17 @@ setup_jupyter:
 ## Make Dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) project_name/dataset.py
+	$(PYTHON_INTERPRETER) E2E-ML-TEMPLATE/dataset.py
 
 ## Make Features
 .PHONY: features
 features: requirements
-	$(PYTHON_INTERPRETER) project_name/features.py
+	$(PYTHON_INTERPRETER) E2E-ML-TEMPLATE/features.py
 
 ## Make Plots
 .PHONY: plots
 plots: requirements
-	$(PYTHON_INTERPRETER) project_name/plots.py
+	$(PYTHON_INTERPRETER) E2E-ML-TEMPLATE/plots.py
 
 ## Make Deploy
 
