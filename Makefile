@@ -52,6 +52,9 @@ sync_data_up:
 		-s data/
 
 
+# ~/.bashrc
+# source ~/.venv/bin/activate
+
 ## Set up python interpreter environment
 .PHONY: create_environment
 create_environment:
@@ -90,6 +93,8 @@ features: requirements
 .PHONY: plots
 plots: requirements
 	$(PYTHON_INTERPRETER) project_name/plots.py
+
+## Make Deploy
 
 #################################################################################
 # Self Documenting Commands                                                     #
